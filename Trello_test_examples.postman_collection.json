@@ -10,6 +10,245 @@
 			"name": "Happy Path",
 			"item": [
 				{
+					"name": "Create Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"// --- Headers ---",
+									"pm.test(\"Presence of Headers\", () => {",
+									"    pm.response.to.have.header(\"Connection\");",
+									"    pm.response.to.have.header(\"Date\");",
+									"    pm.response.to.have.header(\"X-Server-Time\");",
+									"    pm.response.to.have.header(\"Referrer-Policy\");",
+									"    pm.response.to.have.header(\"Content-Length\");",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+									"});",
+									"",
+									"// --- Status ---",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// --- Body ---",
+									"pm.test('Board is created', () => {",
+									"    pm.expect(response.closed).to.be.false;",
+									"    pm.expect(response.prefs.permissionLevel).to.eql('private');",
+									"});",
+									"",
+									"pm.test(\"Board name has expected value\", () => {",
+									"    const expectedName = pm.collectionVariables.get(\"newBoardName\");",
+									"    pm.expect(response.name).to.eql(expectedName);",
+									"});",
+									"",
+									"// --- Schema ---",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"name\": { \"type\": \"string\" },",
+									"        \"desc\": { \"type\": \"string\" },",
+									"        \"descData\": { \"type\": [\"null\", \"string\"] },",
+									"        \"closed\": { \"type\": \"boolean\" },",
+									"        \"idOrganization\": { \"type\": \"string\" },",
+									"        \"idEnterprise\": { \"type\": [\"null\", \"string\"] },",
+									"        \"pinned\": { \"type\": \"boolean\" },",
+									"        \"url\": { \"type\": \"string\", \"format\": \"uri\" },",
+									"        \"shortUrl\": { \"type\": \"string\", \"format\": \"uri\" },",
+									"        \"prefs\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"permissionLevel\": { \"type\": \"string\" },",
+									"                \"hideVotes\": { \"type\": \"boolean\" },",
+									"                \"voting\": {\"type\": \"string\"},",
+									"                \"comments\": { \"type\": \"string\" },",
+									"                \"invitations\": { \"type\": \"string\" },",
+									"                \"selfJoin\": { \"type\": \"boolean\" },",
+									"                \"cardCovers\": { \"type\": \"boolean\" },",
+									"                \"showCompleteStatus\": { \"type\": \"boolean\" },",
+									"                \"cardCounts\": { \"type\": \"boolean\" },",
+									"                \"isTemplate\": { \"type\": \"boolean\" }, ",
+									"                \"cardAging\": { \"type\": \"string\" },",
+									"                \"calendarFeedEnabled\": { \"type\": \"boolean\" },",
+									"                \"hiddenPluginBoardButtons\": { \"type\": \"array\" },",
+									"                \"switcherViews\": { \"type\": \"array\" },",
+									"                \"autoArchive\": { \"type\": [\"null\", \"string\"] },",
+									"                \"background\": { \"type\": \"string\" },",
+									"                \"backgroundColor\": { \"type\": \"string\" },",
+									"                \"backgroundDarkColor\": { \"type\": [\"null\", \"string\"] },",
+									"                \"backgroundImage\": { \"type\": [\"null\", \"string\"] },",
+									"                \"backgroundDarkImage\": { \"type\": [\"null\", \"string\"] },",
+									"                \"backgroundImageScaled\": { \"type\": [\"null\", \"string\"] },",
+									"                \"backgroundTile\": { \"type\": \"boolean\" },",
+									"                \"backgroundBrightness\": { \"type\": \"string\" },",
+									"                \"sharedSourceUrl\": { \"type\": [\"null\", \"string\"] },",
+									"                \"backgroundBottomColor\": { \"type\": \"string\" },",
+									"                \"backgroundTopColor\": { \"type\": \"string\" },",
+									"                \"canBePublic\": { \"type\": \"boolean\" },",
+									"                \"canBeEnterprise\": { \"type\": \"boolean\" },",
+									"                \"canBeOrg\": { \"type\": \"boolean\" },",
+									"                \"canBePrivate\": { \"type\": \"boolean\" },",
+									"                \"canInvite\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"required\": [",
+									"                \"permissionLevel\",",
+									"                \"hideVotes\",",
+									"                \"voting\",",
+									"                \"comments\",",
+									"                \"invitations\",",
+									"                \"selfJoin\",",
+									"                \"cardCovers\",",
+									"                \"showCompleteStatus\",",
+									"                \"cardCounts\",",
+									"                \"isTemplate\", ",
+									"                \"cardAging\",",
+									"                \"calendarFeedEnabled\",",
+									"                \"hiddenPluginBoardButtons\",",
+									"                \"switcherViews\",",
+									"                \"autoArchive\",",
+									"                \"background\",",
+									"                \"backgroundColor\",",
+									"                \"backgroundDarkColor\",",
+									"                \"backgroundImage\",",
+									"                \"backgroundDarkImage\",",
+									"                \"backgroundImageScaled\",",
+									"                \"backgroundTile\",",
+									"                \"backgroundBrightness\",",
+									"                \"sharedSourceUrl\",",
+									"                \"backgroundBottomColor\",",
+									"                \"backgroundTopColor\",",
+									"                \"canBePublic\",",
+									"                \"canBeEnterprise\",",
+									"                \"canBeOrg\",",
+									"                \"canBePrivate\",",
+									"                \"canInvite\"",
+									"            ]",
+									"        },",
+									"        \"labelNames\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"green\": { \"type\": \"string\" },",
+									"                \"yellow\": { \"type\": \"string\" },",
+									"                \"orange\": { \"type\": \"string\" },",
+									"                \"red\": { \"type\": \"string\" },",
+									"                \"purple\": { \"type\": \"string\" },",
+									"                \"blue\": { \"type\": \"string\" },",
+									"                \"sky\": { \"type\": \"string\" },",
+									"                \"lime\": { \"type\": \"string\" },",
+									"                \"pink\": { \"type\": \"string\" },",
+									"                \"black\": { \"type\": \"string\" },",
+									"                \"green_dark\": { \"type\": \"string\" },",
+									"                \"yellow_dark\": { \"type\": \"string\" },",
+									"                \"orange_dark\": { \"type\": \"string\" },",
+									"                \"red_dark\": { \"type\": \"string\" },",
+									"                \"purple_dark\": { \"type\": \"string\" },",
+									"                \"blue_dark\": { \"type\": \"string\" },",
+									"                \"sky_dark\": { \"type\": \"string\" },",
+									"                \"lime_light\": { \"type\": \"string\" },",
+									"                \"pink_light\": { \"type\": \"string\" },",
+									"                \"black_light\": { \"type\": \"string\" }",
+									"            },",
+									"            \"required\": [",
+									"                \"green\",",
+									"                \"yellow\",",
+									"                \"orange\",",
+									"                \"red\",",
+									"                \"purple\",",
+									"                \"blue\",",
+									"                \"sky\",",
+									"                \"lime\",",
+									"                \"pink\",",
+									"                \"black\",",
+									"                \"green_dark\",",
+									"                \"yellow_dark\",",
+									"                \"orange_dark\",",
+									"                \"red_dark\",",
+									"                \"purple_dark\",",
+									"                \"blue_dark\",",
+									"                \"sky_dark\",",
+									"                \"lime_light\",",
+									"                \"pink_light\",",
+									"                \"black_light\"",
+									"            ]",
+									"        },",
+									"        \"limits\": { \"type\": \"object\" }",
+									"    }, \"required\": [",
+									"        \"id\",",
+									"        \"name\", ",
+									"        \"desc\",",
+									"        \"descData\",",
+									"        \"closed\",",
+									"        \"idOrganization\",",
+									"        \"idEnterprise\",",
+									"        \"pinned\",",
+									"        \"url\", ",
+									"        \"shortUrl\",",
+									"        \"prefs\",",
+									"        \"labelNames\",",
+									"        \"limits\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Response has correct schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"pm.collectionVariables.set('newBoardId',response.id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Name + random number",
+									"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
+									"",
+									"pm.collectionVariables.set(\"newBoardName\", boardName);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key={{APIKey}}&token={{APIToken}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"1",
+								"boards",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{newBoardName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{APIKey}}"
+								},
+								{
+									"key": "token",
+									"value": "{{APIToken}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get All Boards",
 					"event": [
 						{
@@ -318,245 +557,6 @@
 								"boards"
 							],
 							"query": [
-								{
-									"key": "key",
-									"value": "{{APIKey}}"
-								},
-								{
-									"key": "token",
-									"value": "{{APIToken}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Board",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const response = pm.response.json();",
-									"",
-									"// --- Headers ---",
-									"pm.test(\"Presence of Headers\", () => {",
-									"    pm.response.to.have.header(\"Connection\");",
-									"    pm.response.to.have.header(\"Date\");",
-									"    pm.response.to.have.header(\"X-Server-Time\");",
-									"    pm.response.to.have.header(\"Referrer-Policy\");",
-									"    pm.response.to.have.header(\"Content-Length\");",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
-									"});",
-									"",
-									"// --- Status ---",
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"// --- Body ---",
-									"pm.test('Board is created', () => {",
-									"    pm.expect(response.closed).to.be.false;",
-									"    pm.expect(response.prefs.permissionLevel).to.eql('private');",
-									"});",
-									"",
-									"pm.test(\"Board name has expected value\", () => {",
-									"    const expectedName = pm.collectionVariables.get(\"newBoardName\");",
-									"    pm.expect(response.name).to.eql(expectedName);",
-									"});",
-									"",
-									"// --- Schema ---",
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"properties\": {",
-									"        \"id\": { \"type\": \"string\" },",
-									"        \"name\": { \"type\": \"string\" },",
-									"        \"desc\": { \"type\": \"string\" },",
-									"        \"descData\": { \"type\": [\"null\", \"string\"] },",
-									"        \"closed\": { \"type\": \"boolean\" },",
-									"        \"idOrganization\": { \"type\": \"string\" },",
-									"        \"idEnterprise\": { \"type\": [\"null\", \"string\"] },",
-									"        \"pinned\": { \"type\": \"boolean\" },",
-									"        \"url\": { \"type\": \"string\", \"format\": \"uri\" },",
-									"        \"shortUrl\": { \"type\": \"string\", \"format\": \"uri\" },",
-									"        \"prefs\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"permissionLevel\": { \"type\": \"string\" },",
-									"                \"hideVotes\": { \"type\": \"boolean\" },",
-									"                \"voting\": {\"type\": \"string\"},",
-									"                \"comments\": { \"type\": \"string\" },",
-									"                \"invitations\": { \"type\": \"string\" },",
-									"                \"selfJoin\": { \"type\": \"boolean\" },",
-									"                \"cardCovers\": { \"type\": \"boolean\" },",
-									"                \"showCompleteStatus\": { \"type\": \"boolean\" },",
-									"                \"cardCounts\": { \"type\": \"boolean\" },",
-									"                \"isTemplate\": { \"type\": \"boolean\" }, ",
-									"                \"cardAging\": { \"type\": \"string\" },",
-									"                \"calendarFeedEnabled\": { \"type\": \"boolean\" },",
-									"                \"hiddenPluginBoardButtons\": { \"type\": \"array\" },",
-									"                \"switcherViews\": { \"type\": \"array\" },",
-									"                \"autoArchive\": { \"type\": [\"null\", \"string\"] },",
-									"                \"background\": { \"type\": \"string\" },",
-									"                \"backgroundColor\": { \"type\": \"string\" },",
-									"                \"backgroundDarkColor\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundImage\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundDarkImage\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundImageScaled\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundTile\": { \"type\": \"boolean\" },",
-									"                \"backgroundBrightness\": { \"type\": \"string\" },",
-									"                \"sharedSourceUrl\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundBottomColor\": { \"type\": \"string\" },",
-									"                \"backgroundTopColor\": { \"type\": \"string\" },",
-									"                \"canBePublic\": { \"type\": \"boolean\" },",
-									"                \"canBeEnterprise\": { \"type\": \"boolean\" },",
-									"                \"canBeOrg\": { \"type\": \"boolean\" },",
-									"                \"canBePrivate\": { \"type\": \"boolean\" },",
-									"                \"canInvite\": { \"type\": \"boolean\" }",
-									"            },",
-									"            \"required\": [",
-									"                \"permissionLevel\",",
-									"                \"hideVotes\",",
-									"                \"voting\",",
-									"                \"comments\",",
-									"                \"invitations\",",
-									"                \"selfJoin\",",
-									"                \"cardCovers\",",
-									"                \"showCompleteStatus\",",
-									"                \"cardCounts\",",
-									"                \"isTemplate\", ",
-									"                \"cardAging\",",
-									"                \"calendarFeedEnabled\",",
-									"                \"hiddenPluginBoardButtons\",",
-									"                \"switcherViews\",",
-									"                \"autoArchive\",",
-									"                \"background\",",
-									"                \"backgroundColor\",",
-									"                \"backgroundDarkColor\",",
-									"                \"backgroundImage\",",
-									"                \"backgroundDarkImage\",",
-									"                \"backgroundImageScaled\",",
-									"                \"backgroundTile\",",
-									"                \"backgroundBrightness\",",
-									"                \"sharedSourceUrl\",",
-									"                \"backgroundBottomColor\",",
-									"                \"backgroundTopColor\",",
-									"                \"canBePublic\",",
-									"                \"canBeEnterprise\",",
-									"                \"canBeOrg\",",
-									"                \"canBePrivate\",",
-									"                \"canInvite\"",
-									"            ]",
-									"        },",
-									"        \"labelNames\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"green\": { \"type\": \"string\" },",
-									"                \"yellow\": { \"type\": \"string\" },",
-									"                \"orange\": { \"type\": \"string\" },",
-									"                \"red\": { \"type\": \"string\" },",
-									"                \"purple\": { \"type\": \"string\" },",
-									"                \"blue\": { \"type\": \"string\" },",
-									"                \"sky\": { \"type\": \"string\" },",
-									"                \"lime\": { \"type\": \"string\" },",
-									"                \"pink\": { \"type\": \"string\" },",
-									"                \"black\": { \"type\": \"string\" },",
-									"                \"green_dark\": { \"type\": \"string\" },",
-									"                \"yellow_dark\": { \"type\": \"string\" },",
-									"                \"orange_dark\": { \"type\": \"string\" },",
-									"                \"red_dark\": { \"type\": \"string\" },",
-									"                \"purple_dark\": { \"type\": \"string\" },",
-									"                \"blue_dark\": { \"type\": \"string\" },",
-									"                \"sky_dark\": { \"type\": \"string\" },",
-									"                \"lime_light\": { \"type\": \"string\" },",
-									"                \"pink_light\": { \"type\": \"string\" },",
-									"                \"black_light\": { \"type\": \"string\" }",
-									"            },",
-									"            \"required\": [",
-									"                \"green\",",
-									"                \"yellow\",",
-									"                \"orange\",",
-									"                \"red\",",
-									"                \"purple\",",
-									"                \"blue\",",
-									"                \"sky\",",
-									"                \"lime\",",
-									"                \"pink\",",
-									"                \"black\",",
-									"                \"green_dark\",",
-									"                \"yellow_dark\",",
-									"                \"orange_dark\",",
-									"                \"red_dark\",",
-									"                \"purple_dark\",",
-									"                \"blue_dark\",",
-									"                \"sky_dark\",",
-									"                \"lime_light\",",
-									"                \"pink_light\",",
-									"                \"black_light\"",
-									"            ]",
-									"        },",
-									"        \"limits\": { \"type\": \"object\" }",
-									"    }, \"required\": [",
-									"        \"id\",",
-									"        \"name\", ",
-									"        \"desc\",",
-									"        \"descData\",",
-									"        \"closed\",",
-									"        \"idOrganization\",",
-									"        \"idEnterprise\",",
-									"        \"pinned\",",
-									"        \"url\", ",
-									"        \"shortUrl\",",
-									"        \"prefs\",",
-									"        \"labelNames\",",
-									"        \"limits\"",
-									"    ]",
-									"};",
-									"",
-									"pm.test(\"Response has correct schema\", () => {",
-									"    pm.response.to.have.jsonSchema(schema);",
-									"});",
-									"",
-									"pm.collectionVariables.set('newBoardId',response.id);",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"//Name + random number",
-									"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
-									"",
-									"pm.collectionVariables.set(\"newBoardName\", boardName);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key={{APIKey}}&token={{APIToken}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"1",
-								"boards",
-								""
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "{{newBoardName}}"
-								},
 								{
 									"key": "key",
 									"value": "{{APIKey}}"
@@ -967,7 +967,7 @@
 					"name": "Get All Boards",
 					"item": [
 						{
-							"name": "Get All Boards - Missing Api Key",
+							"name": "Get All Boards - Missing API Key",
 							"event": [
 								{
 									"listen": "test",
@@ -1037,7 +1037,7 @@
 							"response": []
 						},
 						{
-							"name": "Get All Boards - Invalid Api Key",
+							"name": "Get All Boards - Invalid API Key",
 							"event": [
 								{
 									"listen": "test",
@@ -1392,6 +1392,375 @@
 					"name": "Create Board",
 					"item": [
 						{
+							"name": "Create Board - Missing API Key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid key'\", () => {",
+											"    pm.expect(response).to.include(\"invalid key\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Name + random number",
+											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
+											"",
+											"pm.collectionVariables.set(\"newBoardName\", boardName);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key=&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "{{newBoardName}}"
+										},
+										{
+											"key": "key",
+											"value": ""
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Board - Invalid API Key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid key'\", () => {",
+											"    pm.expect(response).to.include(\"invalid key\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key=c34cc55d655a3f444c58f9743f03454&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "{{newBoardName}}"
+										},
+										{
+											"key": "key",
+											"value": "c34cc55d655a3f444c58f9743f03454"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Board - Missing API Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Response body contains 'message'\", () => {",
+											"    pm.expect(response.message).to.include(\"missing scopes\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key={{APIKey}}&token=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "{{newBoardName}}"
+										},
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Board - Invalid API Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid app token'\", () => {",
+											"    pm.expect(response).to.include(\"invalid app token\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key={{APIKey}}&token=ATTA34cc233a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "{{newBoardName}}"
+										},
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "ATTA34cc233a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Board - Missing Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Response body contains 'message' and 'error'\", () => {",
+											"    pm.expect(response.message).to.include(\"invalid value for name\");",
+											"    pm.expect(response.error).to.include(\"ERROR\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/?name=&key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": ""
+										},
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create Board - Too Long Name",
 							"event": [
 								{
@@ -1474,384 +1843,6 @@
 							"response": []
 						},
 						{
-							"name": "Create Board - Missing Name",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// --- Headers ---",
-											"pm.test(\"Presence of Headers\", () => {",
-											"    pm.response.to.have.header(\"Connection\");",
-											"    pm.response.to.have.header(\"Date\");",
-											"    pm.response.to.have.header(\"Referrer-Policy\");",
-											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
-											"});",
-											"",
-											"// --- Status ---",
-											"pm.test(\"Status code is 400\", () => {",
-											"    pm.response.to.have.status(400);",
-											"});",
-											"",
-											"// --- Body ---",
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Response body contains 'message' and 'error'\", () => {",
-											"    pm.expect(response.message).to.include(\"invalid value for name\");",
-											"    pm.expect(response.error).to.include(\"ERROR\");",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/1/boards/?name=&key={{APIKey}}&token={{APIToken}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"1",
-										"boards",
-										""
-									],
-									"query": [
-										{
-											"key": "name",
-											"value": ""
-										},
-										{
-											"key": "key",
-											"value": "{{APIKey}}"
-										},
-										{
-											"key": "token",
-											"value": "{{APIToken}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Board - Missing API Key",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// --- Headers ---",
-											"pm.test(\"Presence of Headers\", () => {",
-											"    pm.response.to.have.header(\"Connection\");",
-											"    pm.response.to.have.header(\"Date\");",
-											"    pm.response.to.have.header(\"Referrer-Policy\");",
-											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
-											"});",
-											"",
-											"// --- Status ---",
-											"pm.test(\"Status code is 401\", () => {",
-											"    pm.response.to.have.status(401);",
-											"});",
-											"",
-											"// --- Body ---",
-											"const response = pm.response.text();",
-											"",
-											"pm.test(\"Response body contains 'invalid key'\", () => {",
-											"    pm.expect(response).to.include(\"invalid key\");",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"//Name + random number",
-											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
-											"",
-											"pm.collectionVariables.set(\"newBoardName\", boardName);"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key=c34cc55d655a3f444c58f9743f03454&token={{APIToken}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"1",
-										"boards",
-										""
-									],
-									"query": [
-										{
-											"key": "name",
-											"value": "{{newBoardName}}"
-										},
-										{
-											"key": "key",
-											"value": "c34cc55d655a3f444c58f9743f03454"
-										},
-										{
-											"key": "token",
-											"value": "{{APIToken}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Board - Invalid API Key",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// --- Headers ---",
-											"pm.test(\"Presence of Headers\", () => {",
-											"    pm.response.to.have.header(\"Connection\");",
-											"    pm.response.to.have.header(\"Date\");",
-											"    pm.response.to.have.header(\"Referrer-Policy\");",
-											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
-											"});",
-											"",
-											"// --- Status ---",
-											"pm.test(\"Status code is 401\", () => {",
-											"    pm.response.to.have.status(401);",
-											"});",
-											"",
-											"// --- Body ---",
-											"const response = pm.response.text();",
-											"",
-											"pm.test(\"Response body contains 'invalid key'\", () => {",
-											"    pm.expect(response).to.include(\"invalid key\");",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"//Name + random number",
-											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
-											"",
-											"pm.collectionVariables.set(\"newBoardName\", boardName);"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key=&token={{APIToken}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"1",
-										"boards",
-										""
-									],
-									"query": [
-										{
-											"key": "name",
-											"value": "{{newBoardName}}"
-										},
-										{
-											"key": "key",
-											"value": ""
-										},
-										{
-											"key": "token",
-											"value": "{{APIToken}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Board - Missing API Token",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// --- Headers ---",
-											"pm.test(\"Presence of Headers\", () => {",
-											"    pm.response.to.have.header(\"Connection\");",
-											"    pm.response.to.have.header(\"Date\");",
-											"    pm.response.to.have.header(\"Referrer-Policy\");",
-											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
-											"});",
-											"",
-											"// --- Status ---",
-											"pm.test(\"Status code is 401\", () => {",
-											"    pm.response.to.have.status(401);",
-											"});",
-											"",
-											"// --- Body ---",
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Response body contains 'message'\", () => {",
-											"    pm.expect(response.message).to.include(\"missing scopes\");",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"//Name + random number",
-											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
-											"",
-											"pm.collectionVariables.set(\"newBoardName\", boardName);"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key={{APIKey}}&token=",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"1",
-										"boards",
-										""
-									],
-									"query": [
-										{
-											"key": "name",
-											"value": "{{newBoardName}}"
-										},
-										{
-											"key": "key",
-											"value": "{{APIKey}}"
-										},
-										{
-											"key": "token",
-											"value": ""
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Board - Invalid API Token",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// --- Headers ---",
-											"pm.test(\"Presence of Headers\", () => {",
-											"    pm.response.to.have.header(\"Connection\");",
-											"    pm.response.to.have.header(\"Date\");",
-											"    pm.response.to.have.header(\"Referrer-Policy\");",
-											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
-											"});",
-											"",
-											"// --- Status ---",
-											"pm.test(\"Status code is 401\", () => {",
-											"    pm.response.to.have.status(401);",
-											"});",
-											"",
-											"// --- Body ---",
-											"const response = pm.response.text();",
-											"",
-											"pm.test(\"Response body contains 'invalid app token'\", () => {",
-											"    pm.expect(response).to.include(\"invalid app token\");",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"//Name + random number",
-											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
-											"",
-											"pm.collectionVariables.set(\"newBoardName\", boardName);"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/1/boards/?name={{newBoardName}}&key={{APIKey}}&token=ATTA34cc233a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"1",
-										"boards",
-										""
-									],
-									"query": [
-										{
-											"key": "name",
-											"value": "{{newBoardName}}"
-										},
-										{
-											"key": "key",
-											"value": "{{APIKey}}"
-										},
-										{
-											"key": "token",
-											"value": "ATTA34cc233a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Create Board - Invalid Method",
 							"event": [
 								{
@@ -1886,10 +1877,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"//Name + random number",
-											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1)",
-											"",
-											"pm.collectionVariables.set(\"newBoardName\", boardName)"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1962,10 +1950,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"//Name + random number",
-											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
-											"",
-											"pm.collectionVariables.set(\"newBoardName\", boardName);"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2007,306 +1992,1273 @@
 				},
 				{
 					"name": "Get Single Board",
-					"event": [
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const response = pm.response.json()",
-									"",
-									"// --- Headers ---",
-									"pm.test(\"Presence of Headers\", () => {",
-									"    pm.response.to.have.header(\"Connection\")",
-									"    pm.response.to.have.header(\"Date\")",
-									"    pm.response.to.have.header(\"X-Server-Time\")",
-									"    pm.response.to.have.header(\"Referrer-Policy\")",
-									"    pm.response.to.have.header(\"Content-Length\")",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\")",
-									"})",
-									"",
-									"// --- Status ---",
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"// --- Body ---",
-									"pm.test('Body values', () => {",
-									"    pm.expect(response.closed).to.be.false",
-									"    pm.expect(response.pinned).to.be.false",
-									"    pm.expect(response.prefs.permissionLevel).to.eql('private')",
-									"    pm.expect(response.prefs.comments).to.eql('members')",
-									"    pm.expect(response.prefs.invitations).to.eql('members')",
-									"})",
-									"",
-									"pm.test(\"Board name has expected value\", () => {",
-									"    const expectedName = pm.collectionVariables.get(\"newBoardName\")",
-									"    pm.expect(response.name).to.eql(expectedName)",
-									"})",
-									"",
-									"// --- Schema ---",
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"properties\": {",
-									"        \"id\": { \"type\": \"string\" },",
-									"        \"name\": { \"type\": \"string\" },",
-									"        \"desc\": { \"type\": \"string\" },",
-									"        \"descData\": { \"type\": [\"null\", \"string\"] },",
-									"        \"closed\": { \"type\": \"boolean\" },",
-									"        \"idOrganization\": { \"type\": \"string\" },",
-									"        \"idEnterprise\": { \"type\": [\"null\", \"string\"] },",
-									"        \"pinned\": { \"type\": \"boolean\" },",
-									"        \"url\": { \"type\": \"string\", \"format\": \"uri\" },",
-									"        \"shortUrl\": { \"type\": \"string\", \"format\": \"uri\" },",
-									"        \"prefs\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"permissionLevel\": { \"type\": \"string\" },",
-									"                \"hideVotes\": { \"type\": \"boolean\" },",
-									"                \"voting\": {\"type\": \"string\"},",
-									"                \"comments\": { \"type\": \"string\" },",
-									"                \"invitations\": { \"type\": \"string\" },",
-									"                \"selfJoin\": { \"type\": \"boolean\" },",
-									"                \"cardCovers\": { \"type\": \"boolean\" },",
-									"                \"showCompleteStatus\": { \"type\": \"boolean\" },",
-									"                \"cardCounts\": { \"type\": \"boolean\" },",
-									"                \"isTemplate\": { \"type\": \"boolean\" }, ",
-									"                \"cardAging\": { \"type\": \"string\" },",
-									"                \"calendarFeedEnabled\": { \"type\": \"boolean\" },",
-									"                \"hiddenPluginBoardButtons\": { \"type\": \"array\" },",
-									"                \"switcherViews\": { \"type\": \"array\" },",
-									"                \"autoArchive\": { \"type\": [\"null\", \"string\"] },",
-									"                \"background\": { \"type\": \"string\" },",
-									"                \"backgroundColor\": { \"type\": \"string\" },",
-									"                \"backgroundDarkColor\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundImage\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundDarkImage\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundImageScaled\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundTile\": { \"type\": \"boolean\" },",
-									"                \"backgroundBrightness\": { \"type\": \"string\" },",
-									"                \"sharedSourceUrl\": { \"type\": [\"null\", \"string\"] },",
-									"                \"backgroundBottomColor\": { \"type\": \"string\" },",
-									"                \"backgroundTopColor\": { \"type\": \"string\" },",
-									"                \"canBePublic\": { \"type\": \"boolean\" },",
-									"                \"canBeEnterprise\": { \"type\": \"boolean\" },",
-									"                \"canBeOrg\": { \"type\": \"boolean\" },",
-									"                \"canBePrivate\": { \"type\": \"boolean\" },",
-									"                \"canInvite\": { \"type\": \"boolean\" }",
-									"            },",
-									"            \"required\": [",
-									"                \"permissionLevel\",",
-									"                \"hideVotes\",",
-									"                \"voting\",",
-									"                \"comments\",",
-									"                \"invitations\",",
-									"                \"selfJoin\",",
-									"                \"cardCovers\",",
-									"                \"showCompleteStatus\",",
-									"                \"cardCounts\",",
-									"                \"isTemplate\", ",
-									"                \"cardAging\",",
-									"                \"calendarFeedEnabled\",",
-									"                \"hiddenPluginBoardButtons\",",
-									"                \"switcherViews\",",
-									"                \"autoArchive\",",
-									"                \"background\",",
-									"                \"backgroundColor\",",
-									"                \"backgroundDarkColor\",",
-									"                \"backgroundImage\",",
-									"                \"backgroundDarkImage\",",
-									"                \"backgroundImageScaled\",",
-									"                \"backgroundTile\",",
-									"                \"backgroundBrightness\",",
-									"                \"sharedSourceUrl\",",
-									"                \"backgroundBottomColor\",",
-									"                \"backgroundTopColor\",",
-									"                \"canBePublic\",",
-									"                \"canBeEnterprise\",",
-									"                \"canBeOrg\",",
-									"                \"canBePrivate\",",
-									"                \"canInvite\"",
-									"            ]",
-									"        },",
-									"        \"labelNames\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"green\": { \"type\": \"string\" },",
-									"                \"yellow\": { \"type\": \"string\" },",
-									"                \"orange\": { \"type\": \"string\" },",
-									"                \"red\": { \"type\": \"string\" },",
-									"                \"purple\": { \"type\": \"string\" },",
-									"                \"blue\": { \"type\": \"string\" },",
-									"                \"sky\": { \"type\": \"string\" },",
-									"                \"lime\": { \"type\": \"string\" },",
-									"                \"pink\": { \"type\": \"string\" },",
-									"                \"black\": { \"type\": \"string\" },",
-									"                \"green_dark\": { \"type\": \"string\" },",
-									"                \"yellow_dark\": { \"type\": \"string\" },",
-									"                \"orange_dark\": { \"type\": \"string\" },",
-									"                \"red_dark\": { \"type\": \"string\" },",
-									"                \"purple_dark\": { \"type\": \"string\" },",
-									"                \"blue_dark\": { \"type\": \"string\" },",
-									"                \"sky_dark\": { \"type\": \"string\" },",
-									"                \"lime_light\": { \"type\": \"string\" },",
-									"                \"pink_light\": { \"type\": \"string\" },",
-									"                \"black_light\": { \"type\": \"string\" }",
-									"            },",
-									"            \"required\": [",
-									"                \"green\",",
-									"                \"yellow\",",
-									"                \"orange\",",
-									"                \"red\",",
-									"                \"purple\",",
-									"                \"blue\",",
-									"                \"sky\",",
-									"                \"lime\",",
-									"                \"pink\",",
-									"                \"black\",",
-									"                \"green_dark\",",
-									"                \"yellow_dark\",",
-									"                \"orange_dark\",",
-									"                \"red_dark\",",
-									"                \"purple_dark\",",
-									"                \"blue_dark\",",
-									"                \"sky_dark\",",
-									"                \"lime_light\",",
-									"                \"pink_light\",",
-									"                \"black_light\"",
-									"            ]",
-									"        }",
-									"    }, \"required\": [",
-									"        \"id\",",
-									"        \"name\", ",
-									"        \"desc\",",
-									"        \"descData\",",
-									"        \"closed\",",
-									"        \"idOrganization\",",
-									"        \"idEnterprise\",",
-									"        \"pinned\",",
-									"        \"url\", ",
-									"        \"shortUrl\",",
-									"        \"prefs\",",
-									"        \"labelNames\"",
-									"    ]",
-									"}",
-									"",
-									"pm.test(\"Response has correct schema\", () => {",
-									"    pm.response.to.have.jsonSchema(schema)",
-									"})",
-									"",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/1/boards/{{newBoardId}}?key={{APIKey}}&token={{APIToken}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"1",
-								"boards",
-								"{{newBoardId}}"
-							],
-							"query": [
+							"name": "Get Single Board - Missing API Key Copy",
+							"event": [
 								{
-									"key": "key",
-									"value": "{{APIKey}}"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid key'\", () => {",
+											"    pm.expect(response).to.include(\"invalid key\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								},
 								{
-									"key": "token",
-									"value": "{{APIToken}}"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key=&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": ""
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Board - Invalid API Key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid key'\", () => {",
+											"    pm.expect(response).to.include(\"invalid key\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key=c34cc55s655a3f444c58f9743f03454&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "c34cc55s655a3f444c58f9743f03454"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Board - Missing API Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Response body contains 'message'\", () => {",
+											"    pm.expect(response.message).to.include(\"missing scopes\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Board - Invalid API Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'text'\", () => {",
+											"    pm.expect(response).to.include(\"invalid app token\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token=ATTA34cc239a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "ATTA34cc239a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Board - Missing Board Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'Cannot GET'\", () => {",
+											"    pm.expect(response).to.include(\"Cannot GET /1/boards/?key\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										""
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Board - Invalid BoardId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'text'\", () => {",
+											"    pm.expect(response).to.include(\"The requested resource was not found.\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/68aeea444d2bf9bf386dbf09/?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"68aeea444d2bf9bf386dbf09",
+										""
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Board - Invalid Endpoint",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'Cannot GET'\", () => {",
+											"    pm.expect(response).to.include(\"Cannot GET /1/boads/\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boads/{{negativeTestsBoardId}}?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boads",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Board - Invalid Method",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'Cannot POST'\", () => {",
+											"    pm.expect(response).to.include(\"Cannot POST /1/boards/\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "Delete Board",
-					"event": [
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"// --- Headers ---",
-									"pm.test(\"Presence of Headers\", () => {",
-									"    pm.response.to.have.header(\"Connection\")",
-									"    pm.response.to.have.header(\"Date\")",
-									"    pm.response.to.have.header(\"X-Server-Time\")",
-									"    pm.response.to.have.header(\"Referrer-Policy\")",
-									"    pm.response.to.have.header(\"Content-Length\")",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\")",
-									"})",
-									"",
-									"// --- Status ---",
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"// --- Body ---",
-									"const response = pm.response.json()",
-									"",
-									"pm.test('Board is deleted', () => {",
-									"    pm.expect(response._value).to.eql(null)",
-									"})"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/1/boards/{{newBoardId}}?key={{APIKey}}&token={{APIToken}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"1",
-								"boards",
-								"{{newBoardId}}"
-							],
-							"query": [
+							"name": "Delete Board - Missing API Key",
+							"event": [
 								{
-									"key": "key",
-									"value": "{{APIKey}}"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid key'\", () => {",
+											"    pm.expect(response).to.include(\"invalid key\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								},
 								{
-									"key": "token",
-									"value": "{{APIToken}}"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key=&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": ""
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board - Invalid API Key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid key'\", () => {",
+											"    pm.expect(response).to.include(\"invalid key\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key=c34cc55s655a3f443c58f9743f03454&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "c34cc55s655a3f443c58f9743f03454"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board - Missing API Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Response body contains 'message'\", () => {",
+											"    pm.expect(response.message).to.include(\"missing scopes\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board - Invalid API Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 401\", () => {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'text'\", () => {",
+											"    pm.expect(response).to.include(\"invalid app token\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token=ATTA34cc279a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "ATTA34cc279a7b05bb54bf65f98dbbb5fa1067427827d8555cf1833522b921255551FF6B398K"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Already Deleted Board",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'The requested resource was not found.'\", () => {",
+											"    pm.expect(response).to.include(\"The requested resource was not found.\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{newBoardId}}?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{newBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board - Missing Board Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'Cannot DELETE'\", () => {",
+											"    pm.expect(response).to.include(\"Cannot DELETE /1/boards/?key=\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										""
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board - Invalid Board Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'invalid id'\", () => {",
+											"    pm.expect(response).to.include(\"invalid id\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/77aa1574472dea33da02c34y?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"77aa1574472dea33da02c34y"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board - Invalid Endpoint",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'Cannot DELETE'\", () => {",
+											"    pm.expect(response).to.include(\"Cannot DELETE /1/bards/\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/bards/{{negativeTestsBoardId}}?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"bards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board - Invalid Method",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");",
+											"});",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.text();",
+											"",
+											"pm.test(\"Response body contains 'Cannot POST'\", () => {",
+											"    pm.expect(response).to.include(\"Cannot POST /1/boards/\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Board After All Tests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// --- Headers ---",
+											"pm.test(\"Presence of Headers\", () => {",
+											"    pm.response.to.have.header(\"Connection\");",
+											"    pm.response.to.have.header(\"Date\");",
+											"    pm.response.to.have.header(\"X-Server-Time\");",
+											"    pm.response.to.have.header(\"Referrer-Policy\");",
+											"    pm.response.to.have.header(\"Content-Length\");",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+											"})",
+											"",
+											"// --- Status ---",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"// --- Body ---",
+											"const response = pm.response.json();",
+											"",
+											"pm.test('Board is deleted', () => {",
+											"    pm.expect(response._value).to.eql(null);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token={{APIToken}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{negativeTestsBoardId}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{APIKey}}"
+										},
+										{
+											"key": "token",
+											"value": "{{APIToken}}"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
@@ -2340,6 +3292,10 @@
 		},
 		{
 			"key": "newBoardId",
+			"value": ""
+		},
+		{
+			"key": "negativeTestsBoardId",
 			"value": ""
 		}
 	]
