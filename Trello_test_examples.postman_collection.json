@@ -1502,7 +1502,10 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"//Name + random number",
+											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
+											"",
+											"pm.collectionVariables.set(\"newBoardName\", boardName);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1575,7 +1578,10 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"//Name + random number",
+											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
+											"",
+											"pm.collectionVariables.set(\"newBoardName\", boardName);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1648,7 +1654,10 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"//Name + random number",
+											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
+											"",
+											"pm.collectionVariables.set(\"newBoardName\", boardName);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1877,7 +1886,10 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"//Name + random number",
+											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
+											"",
+											"pm.collectionVariables.set(\"newBoardName\", boardName);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1950,7 +1962,10 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"//Name + random number",
+											"let boardName = \"Misha\" + (Math.floor(Math.random() * 1000) + 1);",
+											"",
+											"pm.collectionVariables.set(\"newBoardName\", boardName);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2018,7 +2033,22 @@
 											"",
 											"pm.test(\"Response body contains 'invalid key'\", () => {",
 											"    pm.expect(response).to.include(\"invalid key\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2102,7 +2132,22 @@
 											"",
 											"pm.test(\"Response body contains 'invalid key'\", () => {",
 											"    pm.expect(response).to.include(\"invalid key\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2112,7 +2157,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2171,7 +2231,22 @@
 											"",
 											"pm.test(\"Response body contains 'message'\", () => {",
 											"    pm.expect(response.message).to.include(\"missing scopes\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2181,7 +2256,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2240,7 +2330,22 @@
 											"",
 											"pm.test(\"Response body contains 'text'\", () => {",
 											"    pm.expect(response).to.include(\"invalid app token\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2250,7 +2355,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2448,7 +2568,22 @@
 											"",
 											"pm.test(\"Response body contains 'Cannot GET'\", () => {",
 											"    pm.expect(response).to.include(\"Cannot GET /1/boads/\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2458,7 +2593,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2517,7 +2667,22 @@
 											"",
 											"pm.test(\"Response body contains 'Cannot POST'\", () => {",
 											"    pm.expect(response).to.include(\"Cannot POST /1/boards/\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2527,7 +2692,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2591,7 +2771,22 @@
 											"",
 											"pm.test(\"Response body contains 'invalid key'\", () => {",
 											"    pm.expect(response).to.include(\"invalid key\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2601,7 +2796,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2660,7 +2870,22 @@
 											"",
 											"pm.test(\"Response body contains 'invalid key'\", () => {",
 											"    pm.expect(response).to.include(\"invalid key\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2670,7 +2895,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2729,7 +2969,22 @@
 											"",
 											"pm.test(\"Response body contains 'message'\", () => {",
 											"    pm.expect(response.message).to.include(\"missing scopes\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2739,7 +2994,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2798,7 +3068,22 @@
 											"",
 											"pm.test(\"Response body contains 'text'\", () => {",
 											"    pm.expect(response).to.include(\"invalid app token\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2808,7 +3093,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2877,7 +3177,45 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const createUrl = `${baseUrl}/1/boards/?name=DeletedBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"DeletedBoard\" and store the board ID in the collection variable \"deletedBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: createUrl,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    if (err) {",
+											"        console.log(\"Error creating board:\", err);",
+											"        return;",
+											"    }",
+											"",
+											"    let json = response.json();",
+											"    let boardId = json.id;",
+											"",
+											"    // 2. Delete board",
+											"    let deleteUrl = `${baseUrl}/1/boards/${boardId}?key=${APIKey}&token=${APIToken}`;",
+											"    pm.sendRequest({",
+											"        url: deleteUrl,",
+											"        method: 'DELETE',",
+											"        header: {",
+											"            'Content-Type': 'application/json'",
+											"        }",
+											"    }, function (err) {",
+											"        if (err) {",
+											"            console.log(\"Error deleting board:\", err);",
+											"            return;",
+											"        }",
+											"",
+											"        // 3. Save deleted board id",
+											"        pm.collectionVariables.set('deletedBoardId', boardId);",
+											"    });",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2888,14 +3226,14 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/1/boards/{{newBoardId}}?key={{APIKey}}&token={{APIToken}}",
+									"raw": "{{baseUrl}}/1/boards/{{deletedBoardId}}?key={{APIKey}}&token={{APIToken}}",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"1",
 										"boards",
-										"{{newBoardId}}"
+										"{{deletedBoardId}}"
 									],
 									"query": [
 										{
@@ -3074,7 +3412,22 @@
 											"",
 											"pm.test(\"Response body contains 'Cannot DELETE'\", () => {",
 											"    pm.expect(response).to.include(\"Cannot DELETE /1/bards/\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -3084,7 +3437,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -3143,7 +3511,22 @@
 											"",
 											"pm.test(\"Response body contains 'Cannot POST'\", () => {",
 											"    pm.expect(response).to.include(\"Cannot POST /1/boards/\");",
-											"});"
+											"});",
+											"",
+											"// --- Delete newly created board---",
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const negativeTestsBoardId = pm.collectionVariables.get(\"negativeTestsBoardId\");",
+											"const url = `${baseUrl}/1/boards/${negativeTestsBoardId}?key=${APIKey}&token=${APIToken}`;",
+											" ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'DELETE',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -3153,7 +3536,22 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											""
+											"const baseUrl = pm.environment.get(\"baseUrl\");",
+											"const APIKey = pm.environment.get(\"APIKey\");",
+											"const APIToken = pm.environment.get(\"APIToken\");",
+											"const url = `${baseUrl}/1/boards/?name=NegativeTestsBoard&key=${APIKey}&token=${APIToken}`;",
+											"",
+											"// Create a new board with the name \"NegativeTestsBoard\" and store the board ID in the collection variable \"negativeTestsBoardId\"   ",
+											"pm.sendRequest({",
+											"    url: url,",
+											"    method: 'POST',",
+											"    header: {",
+											"        'Content-Type': 'application/json'",
+											"    }",
+											"}, function (err, response) {",
+											"    response = response.json();",
+											"    pm.collectionVariables.set('negativeTestsBoardId',response.id);",
+											"})"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -3162,77 +3560,6 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token={{APIToken}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"1",
-										"boards",
-										"{{negativeTestsBoardId}}"
-									],
-									"query": [
-										{
-											"key": "key",
-											"value": "{{APIKey}}"
-										},
-										{
-											"key": "token",
-											"value": "{{APIToken}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Board After All Tests",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// --- Headers ---",
-											"pm.test(\"Presence of Headers\", () => {",
-											"    pm.response.to.have.header(\"Connection\");",
-											"    pm.response.to.have.header(\"Date\");",
-											"    pm.response.to.have.header(\"X-Server-Time\");",
-											"    pm.response.to.have.header(\"Referrer-Policy\");",
-											"    pm.response.to.have.header(\"Content-Length\");",
-											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");",
-											"})",
-											"",
-											"// --- Status ---",
-											"pm.test(\"Status code is 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// --- Body ---",
-											"const response = pm.response.json();",
-											"",
-											"pm.test('Board is deleted', () => {",
-											"    pm.expect(response._value).to.eql(null);",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
 								"header": [],
 								"url": {
 									"raw": "{{baseUrl}}/1/boards/{{negativeTestsBoardId}}?key={{APIKey}}&token={{APIToken}}",
@@ -3296,6 +3623,10 @@
 		},
 		{
 			"key": "negativeTestsBoardId",
+			"value": ""
+		},
+		{
+			"key": "deletedBoardId",
 			"value": ""
 		}
 	]
