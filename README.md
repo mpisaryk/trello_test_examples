@@ -13,12 +13,16 @@ The purpose of this project is to demonstrate API testing skills, including posi
 
 ## How to Run Tests
 1. Clone this repository:
+   ```bash 
    git clone https://github.com/mpisaryk/trello_test_examples.git
+   ```
 
 2. Import the Postman collection: 
+
    `Trello_test_examples.postman_collection.json`
 
 3. Import the Postman environment file:  
+
    `Production_Trello.postman_environment.json`
 
 4. **Set your Trello API key and token** in the environment variables.
