@@ -1,4 +1,4 @@
-# Trello API Tests
+# Trello Rest-API Tests
 
 This repository contains API tests for [Trello](https://trello.com/) written in **Postman**.  
 The purpose of this project is to demonstrate API testing skills, including positive and negative test scenarios.
